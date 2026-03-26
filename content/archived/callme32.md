@@ -58,7 +58,7 @@ payload+=callme_two+dead+cafe+dood
 payload+=callme_three+dead+cafe+dood
 ```
 
-It's important to note, that when a function call is made a new **stack frame** is created. This is to avoid corrupting data outisde a function, and also to save memory. Let's look at a simple python program that explains this quite well:
+It's important to note, that when a function call is made a new **stack frame** is created. This is to avoid corrupting data outside a function, and also to save memory. Let's look at a simple python program that explains this quite well:
 
 ```python
 
@@ -136,4 +136,3 @@ def main():
 
 main()
 ```
-

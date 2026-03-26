@@ -33,7 +33,7 @@ state = proj.factory.entry_state(stdin="test_stdin_string\n")
 # How to send data with argv
 state = proj.factory.entry_state(args=["./<binary_name>", argv1])
 
-# Use unicorn engine! This is often a good way to go abouts
+# Use unicorn engine! This is often a good way to go about
 state = proj.factory.entry_state(add_options=angr.options.unicorn)
 ```
 
@@ -132,4 +132,3 @@ state.solver.add(flag_chars[24] == ord("q"))
 [³] - Documentation: https://angr.io/<br>
 
 [⁴] - Video by John Hammond: https://www.youtube.com/watch?v=RCgEIBfnTEI<br>
-

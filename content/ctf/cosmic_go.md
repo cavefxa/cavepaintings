@@ -10,12 +10,12 @@ summary: "Challenge from TDCNET-CTF 25 - Download the challenge files: [event_ho
 There was a bunch of issues with radiation, when we were trying to figure out the event horizon of this black hole. It worked on our test data! Can you figure out what's wrong?
 
 ### The Idea
-I wanted to have some sort of geometric algorithm, that would require some level of "plotting" or intuition of the geometrics, before you could get the flag. The shape I wanted to play with was the `convex hull`, i.e. *"the smallet set of convex nodes that contain a shape"*. Here the event horizon of a black hole.
+I wanted to have some sort of geometric algorithm, that would require some level of "plotting" or intuition of the geometrics, before you could get the flag. The shape I wanted to play with was the `convex hull`, i.e. *"the smallest set of convex nodes that contain a shape"*. Here the event horizon of a black hole.
 
 Initially I tried to make the algorithm inefficient. I tried using `Quickhull`, which degenerates to `O(n^2)` in the worst case, but the binary would get too big. Eventually I decided to make `bogohull`, a brain child of `bogosort`, and `convexhull`. Utilizing the stupidity of `bogosort`, to make the convex hull algorithm run forever. To those uninitiated, `bogohull` is *"An algorithm which successively generates permutations of its input until it finds one that is sorted"*, i.e. generate random numbers, check if it is a solution, otherwise continue.
 
 ### Solution 
-We can reverse the binary, and we'll figure out was was stated above. Extracting the points we can plot it. From the reverse engineering part, we see that the flag characters are encoded as lengths between vertices in the hull. 
+We can reverse the binary, and we'll figure out what was stated above. Extracting the points we can plot it. From the reverse engineering part, we see that the flag characters are encoded as lengths between vertices in the hull. 
 
 ```python
 import numpy as np
@@ -54,4 +54,3 @@ This gives the output `x3VN0c{TENCDT}`. This looks like a flag, because it conta
 It is all about which way to read it, this is quite obvious from looking at it, but the reason is, 
 that you're going clockwise around the convex hull, with one letter at a time. Giving:
 `TDCNET{c0NV3x}`
-

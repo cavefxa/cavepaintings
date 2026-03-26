@@ -24,7 +24,7 @@ Once upon a time, I went to the Danish hacking festival [Bornhack](https://bornh
 # Background information about Snapcast
 * Quick PSA: There's no hacking in this section.
 ### What is Snapcast
-Snapcast is a **s**ynchro**n**ous multiroom **a**udio **p**layer. This is where the acronym `SNAP` comes from. It's not a standalone player, but instead a service, which attempts to turn your devices, for example old phones, laptops, etcetera, into a Sonos-like soundsystem. It's an open source project, with 5.3k starts on Github as of writing this.
+Snapcast is a **s**ynchro**n**ous multiroom **a**udio **p**layer. This is where the acronym `SNAP` comes from. It's not a standalone player, but instead a service, which attempts to turn your devices, for example old phones, laptops, etcetera, into a Sonos-like sound system. It's an open source project, with 5.3k stars on Github as of writing this.
 
 ![Overview](/pictures/SnapcastOverview.png)
 
@@ -32,7 +32,7 @@ Snapcast is a **s**ynchro**n**ous multiroom **a**udio **p**layer. This is where 
 There are two types of clients in Snapcast. There's the `Control Clients` and the `Streaming Clients`, and then of course the server, also called `Snapserver`. The server can be reached through TCP, HTTP, or Websockets using a JSON-RPC API. Using this API it's possible to set client's volume, mute clients, rename clients, assign a client to a stream, or manage groups. The typical TCP port used for Snapcast is port 1705. The RPC API is pretty well documented on their [github](https://github.com/badaix/snapcast/blob/develop/doc/json_rpc_api/control.md). 
 
 ### How does it work?
-Using one of the stream sources, this can for example be the stdout of a process, it's possible to turn data into chunks, using some of the supported codecs, for example `FLAC` or `PCM`. These chunks are sent with timestamps from the server, and later on the client site decoded using a systems level audio API, resulting in music being played. It's quite interesting how this works, and one of the standard streams `/tmp/snapfifo`, can be used for testing connection, by piping data from `/dev/urandom` into it, and you'll hear a bunch of noise.
+Using one of the stream sources, this can for example be the stdout of a process, it's possible to turn data into chunks, using some of the supported codecs, for example `FLAC` or `PCM`. These chunks are sent with timestamps from the server, and later on the client side decoded using a system-level audio API, resulting in music being played. It's quite interesting how this works, and one of the standard streams `/tmp/snapfifo`, can be used for testing connection, by piping data from `/dev/urandom` into it, and you'll hear a bunch of noise.
 
 ### How is it synchronizing?
 One of the cool things about Snapcast is, that it's very synchronized. When we were using it at the festival, I was surprised at how I could walk from speaker to speaker, and not notice the latency between the two - maybe I'm easily impressed. The documentation for Snapcast describes their algorithm for achieving this low delay as follows:
@@ -42,7 +42,7 @@ One of the cool things about Snapcast is, that it's very synchronized. When we w
 3. Client calculates the latency from server to client using `(client_recv - server_sent) + network_latency`
 4. Calculates the difference between the server and client as `(client_to_server_time - server_to_client_time) / 2`
 
-I'm not completely sure if it's the exact same as the time synchronization algorithm called [Christians Algorithm](https://www.cs.utexas.edu/users/lorenzo/corsi/cs380d/papers/Cristian.pdf), but it looks very similar. The reason for this synchronization is that, then the local time on each of the clients will be the same (of course with some latency), and without this sync, it would be very hard to keep that just based on your local system clock.
+I'm not completely sure if it's the exact same as the time synchronization algorithm called [Cristian's algorithm](https://www.cs.utexas.edu/users/lorenzo/corsi/cs380d/papers/Cristian.pdf), but it looks very similar. The reason for this synchronization is that, then the local time on each of the clients will be the same (of course with some latency), and without this sync, it would be very hard to keep that just based on your local system clock.
 
 # Exploitation
 ### Finding the bug

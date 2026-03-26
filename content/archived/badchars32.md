@@ -72,7 +72,7 @@ cave@noobpwn:~/binexp/ROP-emperium/badchars_32$ ROPgadget --binary badchars32 | 
 
 0x080485b9 : pop esi ; pop edi ; pop ebp ; ret
 ```
-Another useful gadget, but do we don't need the "pop ebp", so we'll just fill that with garbage
+Another useful gadget, but we don't need the "pop ebp", so we'll just fill that with garbage
 
 Gadgets I want to use:
 ```c
@@ -83,7 +83,7 @@ pop ebp (to set addr for xor)
 pop ebx (to set bl for xor)
 ```
 
-I also needed to check what addresspaces were writable, otherwise I couldn't write my string anywhere. I did this with radare2 and the iS function. You can also use readelf -S <binary>
+I also needed to check what address spaces were writable, otherwise I couldn't write my string anywhere. I did this with radare2 and the iS function. You can also use readelf -S <binary>
 ```c
 addr          vsize       name  
 0x08049efc    0x4 -rw- .init_array
@@ -99,7 +99,7 @@ Now I was ready to plan my ROPchain.
 
 I planned my masterplan:
 ```
-Step 1. Move a string into a writeable datasegment
+Step 1. Move a string into a writable data segment
 
 Step 2. XOR the string bytewise, so that its equal to flag
 

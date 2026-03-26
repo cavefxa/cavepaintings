@@ -92,7 +92,7 @@ Before we begin writing an exploit, we will check the mitigations on the system.
 ```
 $ echo 0 > /proc/sys/kernel/kptr_restrict
 ```
-I noticed that on different system reboots the addresses would not change. This would indicate that KALSR is not on. This really makes our life a lot easier, we don't need to worry about leaks now. It would seem it's just a regular kernel ROP now. However there's the one issue that we don't have `gdb` on the device, and getting it would probably be pretty difficult, so let's do it blind! We will also check for other protection mechanisms. Looking in `/proc/cpuinfo` it would seem that there's no SMEP either. Generally it would seem that there's no real protections. In the kernel config we see that there's a few interesting Samsung specific protections though:
+I noticed that on different system reboots the addresses would not change. This would indicate that KASLR is not on. This really makes our life a lot easier, we don't need to worry about leaks now. It would seem it's just a regular kernel ROP now. However there's the one issue that we don't have `gdb` on the device, and getting it would probably be pretty difficult, so let's do it blind! We will also check for other protection mechanisms. Looking in `/proc/cpuinfo` it would seem that there's no SMEP either. Generally it would seem that there's no real protections. In the kernel config we see that there's a few interesting Samsung specific protections though:
 ![anti rooting samsung](/pictures/samsung-anti-rooting.png)
 
 This will be relevant later, as this was something I was getting *mildly* annoyed over.
@@ -140,7 +140,7 @@ We have a few options available now. To name two:
 1. Trying to write a ROP-chain that would get us shell
 2. Trying ARM shellcode since there's no SMEP
 
-We need to know that we cannot just return to userland code which calls system calls, directly from the kernel, due to the fact that system calls are just interfaces with the kernel. The kernel doesn't know what an execve syscall is per say. With "normal" x86_64 kernel exploitation, we would often use the `swapgs` instruction to change the `gs` flag. This involves saving the statem returning, and setting up the state again. Saving the state could look something like this:
+We need to know that we cannot just return to userland code which calls system calls, directly from the kernel, due to the fact that system calls are just interfaces with the kernel. The kernel doesn't know what an execve syscall is per se. With "normal" x86_64 kernel exploitation, we would often use the `swapgs` instruction to change the `gs` flag. This involves saving the state, returning, and setting up the state again. Saving the state could look something like this:
 ```c
 void save_state(){
     __asm__(
@@ -156,7 +156,7 @@ void save_state(){
 }
 ```
 
-In ARMv7, these instructions do not exist. However there's the `msr` instruction. An instruction used for settings values in the CPSR register, which is the current program status register. This register is responsible for telling the CPU whether or not it's in userland or kernelland. Let's have a quick look at the CSPR register.
+In ARMv7, these instructions do not exist. However there's the `msr` instruction. An instruction used for settings values in the CPSR register, which is the current program status register. This register is responsible for telling the CPU whether or not it's in userland or kernel land. Let's have a quick look at the CPSR register.
 ![cpsr](/pictures/cpsr-illustration.png)
 
 What we're interested in is the "Mode bits" segment. The mode is stored in the 5 least significant bits of the register. Specifically we want to set the value of these to `1 0 0 0 0`. This way we will get into user mode. Let's try coming up with some assembly that could perhaps achieve what we want.

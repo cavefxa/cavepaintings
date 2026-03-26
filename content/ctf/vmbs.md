@@ -14,7 +14,7 @@ Running strings on the file reveal `(c) 2093 Stu. Alien Madnick, Inc. All Rights
 Searching the internet for Stu Madnick, we get a reference to Stuart Madnick, who `developed the little man computer model that is still widely used to introduce computer architecture concepts,`. The Little Alien Computer is heavily inspired by this architecture. 
 
 ### Solution
-Reversing the VM implementation, with (or without) the intel gathered from the easter-egg, we'll quickly find that there are no bounds checking. The flag is convieniently placed after our "bucket", or memory where we can store and read variables. We can index out of bounds to read a character at a time. 
+Reversing the VM implementation, with (or without) the intel gathered from the easter-egg, we'll quickly find that there are no bounds checking. The flag is conveniently placed after our "bucket", or memory where we can store and read variables. We can index out of bounds to read a character at a time. 
 
 We write a payload:
 ```

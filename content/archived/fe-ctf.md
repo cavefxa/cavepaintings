@@ -5,7 +5,7 @@ description: "Writeups for FE-CTF 2022"
 ---
 
 # Qualifiers - Dig1
-A lot of older routers, have this thing in settings that allows your to ping routers. This input is 
+A lot of older routers, have this thing in settings that allows you to ping routers. This input is 
 usually just smacked directly into bash, and then executed. Knowing this, we can try command injection
 with something as simple as:
 
@@ -49,7 +49,7 @@ unsigned char ALPHABET[] =
             "abcdefghijklmnopqrstuvwxyz"
             "0123456789";
 ```
-This is 62 different characters. We know that there's atleast 5 characters in the password:
+This is 62 different characters. We know that there's at least 5 characters in the password:
 ```c
 assert(strlen(PASSWORD) <= 5);
 ```
@@ -61,9 +61,9 @@ Now we need to figure out how we bruteforce this. The server sleeps one second e
 about the same time as an orbital period of Saturn, 5.5 times the half life of Cobalt-60 or 10603 days. Not very feasible.
 
 Now if we assume we could cut our guesses in half with every guess, we would have `log2(992436543)=29.9`. This is some rough
-math that doesn't take a lot of things into consideration, but this should be do able. Of course we still need to check a lot of 
+math that doesn't take a lot of things into consideration, but this should be doable. Of course we still need to check a lot of 
 things locally, but we should only need to send around 30 requests to the server. But how can we cut our guesses in half with 
-every guess? Well, we're told everytime we send a password, if the hash is larger or smaller. This should make one think of
+every guess? Well, we're told every time we send a password, if the hash is larger or smaller. This should make one think of
 binary search. So we implement this in the C script:
 
 ```c
@@ -393,7 +393,7 @@ We see that it also defines this in the top of the file:
 ```c
 #define array_length(x) ((size_t) sizeof(x) / sizeof(x[0]))
 ```
-This takes the overall size and divides it withe first element, now it uses the 
+This takes the overall size and divides it with the first element, now it uses the 
 size_t which is of the unsigned integer type. However this is now 32-bit, meaning
 that this will return a different size.
 32-bit:

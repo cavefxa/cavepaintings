@@ -4,7 +4,7 @@ date: 2021-09-29T12:09:45+02:00
 ---
 
 # What is symbolic execution?
-One might relate it to symbolic equations from mathematics in school. A few exambles of symbolic equations might be:
+One might relate it to symbolic equations from mathematics in school. A few examples of symbolic equations might be:
 
 ```
 a²+b²=c²
@@ -34,7 +34,7 @@ int f() {
 ```
 
 Concrete:<br>
-Upon executing the example code with a concrete input. The read() call on line 3, would read a concrete value, eg. `5`. It would then run the program throughout with that value. Z would be set to 10, and "OK" would be printed. We would now not know how fail would be called. Which we for explanation sake want.
+Upon executing the example code with a concrete input. The read() call on line 3, would read a concrete value, eg. `5`. It would then run the program throughout with that value. Z would be set to 10, and "OK" would be printed. We would now not know how fail would be called. Which we for explanation's sake want.
 
 
 Symbolic:<br>
@@ -56,4 +56,3 @@ I for one, however just installed it "normally", using pip.
 ```
 pip3 install angr
 ```
-

@@ -14,7 +14,7 @@ I made a `custom` commitment scheme for this challenge. I tried to hint subtly i
 
 A commitment scheme is a cryptographic primitive that allows one to commit to a chosen value (or chosen statement) while keeping it hidden to others, while maintaining the ability to reveal the committed value later. 
 
-This can be very useful for online casinos, for example: Natalie wants to play online roulette, she puts in the money, and clicks play. After the play button was pressed, she received a commitment from the casino, and the roulette table begins to spin - she losses, and the value is revealed - showing that she was not being tricked. 
+This can be very useful for online casinos, for example: Natalie wants to play online roulette, she puts in the money, and clicks play. After the play button was pressed, she received a commitment from the casino, and the roulette table begins to spin - she loses, and the value is revealed - showing that she was not being tricked. 
 
 The specifically suspicious thing about this code is the `verify()` function:
 ```python

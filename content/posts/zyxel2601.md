@@ -6,7 +6,7 @@ description: "Easy router hacking with a fun auth-bypass"
 
 # Preface
 
-In this blog post, I will be going through how I, along with a few of my friends, spent the previous sunday, hacking an old router, and getting a full exploit, that takes an attacker from unauthenticated LAN to root on the router. Hope you enjoy!
+In this blog post, I will be going through how I, along with a few of my friends, spent the previous Sunday, hacking an old router, and getting a full exploit, that takes an attacker from unauthenticated LAN to root on the router. Hope you enjoy!
 
 # Getting started
 
@@ -20,9 +20,9 @@ As with my last router target, this one was also picked up from a thrift store. 
 
 Initially I wanted to do a lot of hardware hacking on this router, to dump the firmware on it. However we ended up going another route. It’s however still cool to see the circuitry of these devices:)
 
-### Initial reconnaisance
+### Initial reconnaissance
 
-We started by having a look at the web interface, and getting a succesful log-in. During our initial internet searching, we found the manual which specified, that the default username, and password would be `admin:1234`, this didn’t work out the gate. Resetting the router, and boom. We get a nice user interface, with a lovely network diagram. We also performed the obligatory `nmap` scan, and during this scan we found out that it had telnet open! This was fantastic, trying the default admin creds `admin:1234` on telnet, gave us a shell (kind of)!
+We started by having a look at the web interface, and getting a successful log-in. During our initial internet searching, we found the manual which specified, that the default username, and password would be `admin:1234`, this didn’t work out the gate. Resetting the router, and boom. We get a nice user interface, with a lovely network diagram. We also performed the obligatory `nmap` scan, and during this scan we found out that it had telnet open! This was fantastic, trying the default admin creds `admin:1234` on telnet, gave us a shell (kind of)!
 
 ### Breaking free
 
@@ -57,7 +57,7 @@ We never found out what this was used for, but it seems like it could be useful.
 
 ### Extracting source code
 
-We found out that through playing with the web interface, that it was consequently refering to .cgi files. Searching for these gave a lot of hits, and suddenly we had source for all the websites - written in C. Surely that can’t go wrong?
+We found out that through playing with the web interface, that it was consequently referring to .cgi files. Searching for these gave a lot of hits, and suddenly we had source for all the websites - written in C. Surely that can’t go wrong?
 
 Now let’s take a bit of a sidetrack, and try to understand properly how a .cgi file works. [CGI](https://en.wikipedia.org/wiki/Common_Gateway_Interface) stands for Common Gateway Interface, and is an interface, which allows executing external programs, typically to process user requests. That is, if we send a GET or POST request to a server, it might call some CGI binary, which processes our request, and for example, might determine if we’re admin or not. This is pretty neat, and all, but how does it pass the request parameters to these external programs? For a GET request, the parameters (often sent in the URL i.e. `http://URL:PORT/example.cgi?favorite_word=deadbeef&has_been_called=1`), will be passed through the `QUERY_STRING`, environment variable. There’s also the `PATH_INFO` variable, which contains info about what URL has been referred. A program might then create files on the system, access a local database, external database or use this information, how it sees fit. For example a registering feature in a CGI context, might take your username and password, and then add them to a database. Below a drawing can be seen representing this interface:
 
@@ -185,7 +185,7 @@ QueueNameTxt=WAN_Default_Queue&WebQueueInterface=WAN&
 WebQueuePriority=3&WebQueueWeight=1&WebQueueRate=
 ```    
 
-We can see that the thing that matches our log file is sent in this request `WAN`. We try changing this to `AAAAAAAA`, reading the log file reveals… Success! Let’s send another request with: `WebQueueInterface=WAN;echo+'helloworld'+>>+/tmp/helloworld;` We see that we have succesfully created a new file, we now have RCE.
+We can see that the thing that matches our log file is sent in this request `WAN`. We try changing this to `AAAAAAAA`, reading the log file reveals… Success! Let’s send another request with: `WebQueueInterface=WAN;echo+'helloworld'+>>+/tmp/helloworld;` We see that we have successfully created a new file, we now have RCE.
 
 ### Getting a reverse shell
 

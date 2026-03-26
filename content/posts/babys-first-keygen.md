@@ -34,7 +34,7 @@ We know from running the game that there are a few things present upon start-up.
 
 ![Pasted image 20250118130630.png](/pictures/20250118130630.png)
 
-Analysing the `validate`, it seemed to find our hyphens in the CD-key, and create a license-key string without hiphens. I spent quite some time here initially, running with the debugger I could see that it was reaching, and performing operations on our license key, however the calling convention looked weird, I found out, that C++ uses the `thiscall` calling convention for C++ class member functions, which was a setting I could use in x32dbg - nice, I learned something new! 
+Analysing the `validate`, it seemed to find our hyphens in the CD-key, and create a license-key string without hyphens. I spent quite some time here initially, running with the debugger I could see that it was reaching, and performing operations on our license key, however the calling convention looked weird, I found out, that C++ uses the `thiscall` calling convention for C++ class member functions, which was a setting I could use in x32dbg - nice, I learned something new! 
 
 However, I couldn't find anything that I thought looked suspicious or similar to a license key check. C++ being a nuisance, and lacking symbols I spent quite some time trying to figure out standard string functions and what they were doing. I finally came to the conclusion, that I was probably wasting time looking in this function, and that it must be doing operations on the license key somewhere else. Failing to utilize the hardware breakpoints in x32dbg to check for reads on the license key, I went back to Ida. This function I called the `dialogue_procedure`. It was used only once, as a `proc` function to the WIN32 api function `DialogBoxParamW`:
 
@@ -69,7 +69,7 @@ for i in range(0, 0x1A):
     result_offset = (remainder_offset + 1973) % 0x34
     remainder_offset = (result_offset + 1973) % 0x34
 
-    key_i = ord(example_key_no_hiphens[i])
+    key_i = ord(example_key_no_hyphens[i])
 
     result = lookup[key_i] // 5
     remainder = lookup[key_i] % 5
@@ -195,7 +195,7 @@ Process.enumerateModules({
     onComplete: function() {}
 });
 ```
-These addresses were found in Ida, and based on when `p4_x` were set. I quickly threw this code together so it's not very elegant. I used this to figure out were it diverged initially, which was during the first iteration of the loop specifically: `mov ebx, [ebx] ; p2`. which was supposed to get the value from `p2 = acc[3 - rshift32(first, 5)]`. I was stumped, everything else was the same, the precedence seemed to be the same, everything. After a tiny break I noticed that the values read from `mov ebx, [ebx]`, only changed between four different values. What? The array `acc` is constantly modified, but there was only four different values in `[ebx]`. Turns out it only uses the original array, when retrieving in this part of the loop, thus the fix was copying the array and doing: `p2 = original[3 - rshift32(first, 5)]`.
+These addresses were found in Ida, and based on when `p4_x` were set. I quickly threw this code together so it's not very elegant. I used this to figure out where it diverged initially, which was during the first iteration of the loop specifically: `mov ebx, [ebx] ; p2`. which was supposed to get the value from `p2 = acc[3 - rshift32(first, 5)]`. I was stumped, everything else was the same, the precedence seemed to be the same, everything. After a tiny break I noticed that the values read from `mov ebx, [ebx]`, only changed between four different values. What? The array `acc` is constantly modified, but there was only four different values in `[ebx]`. Turns out it only uses the original array, when retrieving in this part of the loop, thus the fix was copying the array and doing: `p2 = original[3 - rshift32(first, 5)]`.
 
 ## Exiting the dungeon
 We finally got output matching the debugger output. However, 

@@ -105,7 +105,7 @@ And we get the flag: `TDCNET{pRnG_15_s00_fUN!}`
 
 ### Source code
 ```
-; Referencee used for system calls: http://www.ctyme.com/intr/rb-1754.htm
+; Reference used for system calls: http://www.ctyme.com/intr/rb-1754.htm
 
 [bits 16]                   ;   Tells the assembler that its a 16 bit code
 [org 0x7c00]	            ;   Constant, tells the assembler where the code 
