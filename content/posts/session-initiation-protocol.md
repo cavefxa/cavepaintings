@@ -23,7 +23,7 @@ Almost a year ago I was finishing my bachelor's degree. At the time, I was worki
 None of the work done here represents the opinions of my former employer. All impacted parties have been anonymized to avoid leaking information about potentially still vulnerable systems.
 
 # Acknowledgement
-Before getting started, I would like to thank my colleagues William and Florian for being reliable mentors!
+Before getting started, I would like to thank my colleagues during the time, William and Florian for being reliable mentors!
 
 # Background
 The Session Initiation Protocol (SIP) is best known as the signaling core of IP telephony, or Voice over IP (VoIP). Many tools exist for exercising SIP on legacy VoIP stacks, but equivalent utilities for Voice over LTE (VoLTE) are scarce even though 4G networks rely on VoLTE for voice services. Because I could not be sure the research would uncover vulnerabilities, I focused the thesis on closing this tooling gap. The article will not discuss the tooling, only the research.
