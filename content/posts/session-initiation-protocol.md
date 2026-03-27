@@ -7,6 +7,7 @@ description: "Samsung IMS reversing journey - instrumenting imsservice.apk and l
 # Table of Contents
 
 - [Preface and Disclaimer](#preface-and-disclaimer)
+- [Acknowledgement](#acknowledgement)
 - [Background](#background)
     + [What is SIP?](#what-is-sip)
 - [Reversing](#reversing)
@@ -20,6 +21,9 @@ description: "Samsung IMS reversing journey - instrumenting imsservice.apk and l
 Almost a year ago I was finishing my bachelor's degree. At the time, I was working as a penetration tester at a Danish telecommunications company, so I wanted to write a thesis that was relevant to my workplace. After speaking with colleagues, I decided to experiment with the Session Initiation Protocol, better known as SIP. This article walks through the methodology, background, and results of the tests.
 
 None of the work done here represents the opinions of my former employer. All impacted parties have been anonymized to avoid leaking information about potentially still vulnerable systems.
+
+# Acknowledgement
+Before getting started, I would like to thank my colleagues William and Florian for being reliable mentors!
 
 # Background
 The Session Initiation Protocol (SIP) is best known as the signaling core of IP telephony, or Voice over IP (VoIP). Many tools exist for exercising SIP on legacy VoIP stacks, but equivalent utilities for Voice over LTE (VoLTE) are scarce even though 4G networks rely on VoLTE for voice services. Because I could not be sure the research would uncover vulnerabilities, I focused the thesis on closing this tooling gap. The article will not discuss the tooling, only the research.
